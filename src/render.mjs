@@ -113,7 +113,8 @@ ${head}
         ${icons.search}<span>Søk</span><kbd>⌘K</kbd>
       </button>
       <button type="button" class="icon-btn" data-theme-toggle aria-label="Bytt tema">
-        <span class="theme-sun">${icons.sun}</span>
+        <span class="theme-icon theme-icon--light">${icons.moon}</span>
+        <span class="theme-icon theme-icon--dark">${icons.sun}</span>
       </button>
       <button type="button" class="icon-btn menu-btn" data-menu-toggle aria-expanded="false" aria-controls="hovedmeny" aria-label="Åpne meny">
         ${icons.menu}

@@ -41,12 +41,12 @@ for (const ch of chapters) {
 const totals = {
   chapters: chapters.length,
   sections: chapters.reduce((n, c) => n + c.sections.length, 0),
-  terms: chapters.reduce((n, c) => n + c.terms.length, 0),
+  terms: new Set(chapters.flatMap((c) => c.terms.map(([t]) => slugify(t)))).size,
   quiz: chapters.reduce((n, c) => n + c.quiz.length, 0),
   tasks: chapters.reduce((n, c) => n + c.rep.length + c.tasks.length, 0),
   labs: chapters.reduce((n, c) => n + c.labs.length, 0)
 };
-totals.cards = totals.terms + chapters.reduce((n, c) => n + c.rep.length, 0);
+totals.cards = chapters.reduce((n, c) => n + c.terms.length + c.rep.length, 0);
 
 const chapterOf = (n) => chapters.find((c) => c.n === n);
 const termSlug = (t) => "b-" + slugify(t);
@@ -354,9 +354,15 @@ function pageTasks() {
 
 /* ---------- begreper ---------- */
 function pageGlossary() {
-  const all = [];
-  chapters.forEach((c) => c.terms.forEach(([t, d]) => all.push({ t, d, c })));
-  all.sort((a, b) => a.t.localeCompare(b.t, "nb"));
+  const seen = new Map();
+  chapters.forEach((c) =>
+    c.terms.forEach(([t, d]) => {
+      const key = slugify(t);
+      if (seen.has(key)) seen.get(key).refs.push(c);
+      else seen.set(key, { t, d, refs: [c] });
+    })
+  );
+  const all = [...seen.values()].sort((a, b) => a.t.localeCompare(b.t, "nb"));
 
   const body = `
 <section class="section wrap">
@@ -371,10 +377,10 @@ function pageGlossary() {
   ${chipRow("data-glossary-filter")}
   <div class="terms" data-glossary>
     ${all.map((x) => `
-    <dl class="term" id="${termSlug(x.t)}" data-term="${esc((x.t + " " + x.d).toLowerCase())}" data-ch="${x.c.n}">
+    <dl class="term" id="${termSlug(x.t)}" data-term="${esc((x.t + " " + x.d).toLowerCase())}" data-ch="${x.refs.map((c) => c.n).join(" ")}">
       <dt>${esc(x.t)}</dt>
       <dd>${inline(x.d)}</dd>
-      <a href="${x.c.url}">Kapittel ${x.c.n}: ${esc(x.c.title)}</a>
+      ${x.refs.map((c) => `<a href="${c.url}">Kapittel ${c.n}</a>`).join(" ")}
     </dl>`).join("")}
   </div>
   <p class="empty-state" data-glossary-empty hidden>Ingen begreper passer til søket.</p>
@@ -450,13 +456,19 @@ function page404() {
 /* ---------- datafiler ---------- */
 function searchIndex() {
   const out = [];
+  const termSeen = new Set();
   chapters.forEach((c) => {
     out.push({ u: c.url, t: `${c.n}. ${c.title}`, c: `Kapittel ${c.n}`, k: "Kapittel", b: plain(c.lead) });
     c.sections.forEach((s) => {
       const text = plain(blocks(s.blocks)).slice(0, 1400);
       out.push({ u: `${c.url}#${s.id}`, t: s.title, c: `Kapittel ${c.n}: ${c.title}`, k: "Fagstoff", b: text });
     });
-    c.terms.forEach(([t, d]) => out.push({ u: `begreper.html#${termSlug(t)}`, t, c: `Begrep · kapittel ${c.n}`, k: "Begrep", b: plain(d) }));
+    c.terms.forEach(([t, d]) => {
+      const key = slugify(t);
+      if (termSeen.has(key)) return;
+      termSeen.add(key);
+      out.push({ u: `begreper.html#${termSlug(t)}`, t, c: `Begrep · kapittel ${c.n}`, k: "Begrep", b: plain(d) });
+    });
     c.rep.forEach(([q, a], i) => out.push({ u: `oppgaver.html#r-${c.n}-${i}`, t: plain(q), c: `Repetisjon · kapittel ${c.n}`, k: "Oppgave", b: plain(a) }));
     c.tasks.forEach(([num, q, a], i) => out.push({ u: `oppgaver.html#o-${c.n}-${i}`, t: `Oppgave ${num}`, c: `Kapittel ${c.n}: ${c.title}`, k: "Oppgave", b: plain(q + " " + a) }));
   });

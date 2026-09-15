@@ -93,22 +93,22 @@ export const figures = {
 <path d="M195 105 c -40 -18 -70 20 -40 42 c 30 22 78 -4 52 -30" fill="none" stroke="var(--accent)" stroke-width="3"/>` +
       dot(120, 180, 5, "var(--muted)") + dot(150, 200, 5, "var(--muted)") + dot(240, 185, 5, "var(--muted)") +
       dot(265, 150, 5, "var(--muted)") + dot(100, 130, 5, "var(--muted)") +
-      `<path d="M370 145 c 35 -12 40 20 70 6" fill="none" stroke="var(--brand)" stroke-width="2.5"/>` +
+      `<path d="M370 145 c 24 -12 28 20 46 6" fill="none" stroke="var(--brand)" stroke-width="2.5"/>` +
       label(195, 30, "Prokaryot celle (bakterie)", 14.5, 650, "var(--text)") +
       label(196, 100, "fritt DNA", 12, 500, "var(--accent)") +
-      label(105, 228, "ribosomer", 12) + label(415, 152, "flagell", 12, 500, "var(--muted)", "start") +
-      `<rect x="430" y="40" width="350" height="210" rx="40" fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2.5"/>
-<circle cx="545" cy="140" r="48" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
-<path d="M525 128 c 22 -14 26 22 44 8" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
-<ellipse cx="680" cy="105" rx="42" ry="22" fill="var(--surface)" stroke="var(--info)" stroke-width="2"/>
-<path d="M648 105 q 10 -10 16 0 t 16 0 t 16 0 t 16 0" fill="none" stroke="var(--info)" stroke-width="1.6"/>
-<path d="M640 190 q 30 -14 60 0 q -30 16 -60 0" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.6"/>
-<path d="M640 212 q 30 -14 60 0 q -30 16 -60 0" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.6"/>` +
-      dot(470, 205, 5, "var(--muted)") + dot(500, 225, 5, "var(--muted)") + dot(590, 215, 5, "var(--muted)") +
-      label(605, 30, "Eukaryot celle", 14.5, 650, "var(--text)") +
-      label(545, 143, "cellekjerne", 12, 600, "var(--accent)") +
-      label(680, 78, "mitokondrie", 12, 500, "var(--info)") +
-      label(670, 242, "golgiapparat", 12) +
+      label(105, 228, "ribosomer", 12) + label(398, 128, "flagell", 12) +
+      `<rect x="450" y="40" width="330" height="210" rx="40" fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2.5"/>
+<circle cx="555" cy="130" r="44" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+<path d="M537 120 c 20 -13 24 20 40 7" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+<ellipse cx="695" cy="100" rx="40" ry="21" fill="var(--surface)" stroke="var(--info)" stroke-width="2"/>
+<path d="M665 100 q 10 -10 15 0 t 15 0 t 15 0 t 15 0" fill="none" stroke="var(--info)" stroke-width="1.6"/>
+<path d="M660 186 q 30 -14 60 0 q -30 16 -60 0" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.6"/>
+<path d="M660 206 q 30 -14 60 0 q -30 16 -60 0" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.6"/>` +
+      dot(490, 210, 5, "var(--muted)") + dot(520, 232, 5, "var(--muted)") + dot(600, 222, 5, "var(--muted)") +
+      label(615, 30, "Eukaryot celle", 14.5, 650, "var(--text)") +
+      label(555, 196, "cellekjerne", 12, 600, "var(--accent)") +
+      label(695, 68, "mitokondrie", 12, 500, "var(--info)") +
+      label(690, 238, "golgiapparat", 12) +
       "</svg>";
   },
 
@@ -123,20 +123,23 @@ export const figures = {
 <circle cx="${x}" cy="195" r="10" fill="var(--brand)"/>
 <path d="M${x - 4} 185 v -38 M${x + 4} 185 v -38" stroke="var(--brand)" stroke-width="3" stroke-linecap="round" opacity=".55"/>`;
     }
-    return open("0 0 800 290", "Cellemembranen med fosfolipider og transportprotein") + defs +
-      `<rect x="0" y="0" width="800" height="70" fill="var(--info-soft)"/>
-<rect x="0" y="220" width="800" height="70" fill="var(--surface-2)"/>` +
-      label(60, 30, "Utenfor cellen", 13.5, 600, "var(--info)", "start") +
-      label(60, 262, "Inni cellen (cytoplasma)", 13.5, 600, "var(--muted)", "start") +
+    const legend = (y, color, text) =>
+      `<rect x="40" y="${y - 9}" width="14" height="14" rx="4" fill="${color}"/>` +
+      label(66, y + 2, text, 12.5, 500, "var(--muted)", "start");
+    return open("0 0 800 350", "Cellemembranen med fosfolipider og transportprotein") + defs +
+      `<rect x="0" y="0" width="800" height="62" fill="var(--info-soft)"/>
+<rect x="0" y="228" width="800" height="62" fill="var(--surface-2)"/>` +
+      label(40, 36, "Utenfor cellen", 13.5, 650, "var(--info)", "start") +
+      label(40, 266, "Inni cellen (cytoplasma)", 13.5, 650, "var(--muted)", "start") +
       lipids +
       `<rect x="300" y="72" width="96" height="146" rx="26" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2.5"/>
 <path d="M348 78 v 40 m0 54 v 40" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" opacity=".28"/>` +
-      label(348, 150, "transport-", 12, 600, "var(--accent)") + label(348, 166, "protein", 12, 600, "var(--accent)") +
-      arrow(348, 40, 348, 240, "var(--accent)") +
-      label(430, 45, "Fasilitert diffusjon og aktiv transport", 13, 500, "var(--accent)", "start") +
-      arrow(160, 40, 160, 240) +
-      label(175, 45, "Små, upolare molekyler går rett gjennom", 13, 500, "var(--brand)", "start") +
-      label(660, 150, "fettsyrehaler (hydrofobe)", 12, 500, "var(--muted)") +
+      label(348, 140, "transport-", 12, 600, "var(--accent)") +
+      label(348, 156, "protein", 12, 600, "var(--accent)") +
+      arrow(348, 62, 348, 232, "var(--accent)") +
+      arrow(160, 62, 160, 232) +
+      legend(312, "var(--brand)", "Enkel diffusjon: små, upolare molekyler som O₂ og CO₂ går rett mellom fosfolipidene") +
+      legend(336, "var(--accent)", "Fasilitert diffusjon og aktiv transport: ioner og store molekyler går gjennom transportproteiner") +
       "</svg>";
   },
 
@@ -251,8 +254,15 @@ ${art}<line x1="${x}" y1="190" x2="${x + 170}" y2="190" stroke="var(--border-str
   }
 };
 
+let uid = 0;
+
 export function figure(name, caption) {
   const fn = figures[name];
   if (!fn) throw new Error("Ukjent figur: " + name);
-  return `<figure class="figure">${fn()}${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
+  const n = ++uid;
+  let svg = fn();
+  for (const id of ["ah", "ahr", "ahb"]) {
+    svg = svg.split(`id="${id}"`).join(`id="${id}-${n}"`).split(`url(#${id})`).join(`url(#${id}-${n})`);
+  }
+  return `<figure class="figure">${svg}${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
 }

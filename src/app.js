@@ -514,7 +514,8 @@
       items.forEach(function (el) {
         var hay = el.getAttribute("data-term");
         var ch = el.getAttribute("data-ch");
-        var ok = (!q || hay.indexOf(q) !== -1) && (active === "alle" || ch === active);
+        var ok = (!q || hay.indexOf(q) !== -1) &&
+          (active === "alle" || (" " + ch + " ").indexOf(" " + active + " ") !== -1);
         el.hidden = !ok;
         if (ok) shown++;
       });
@@ -688,7 +689,16 @@
       root.querySelector("[data-hard]").addEventListener("click", function () { onlyHard = true; start(); });
     }
 
+    var wanted = new URLSearchParams(location.search).get("k");
     var filter = document.querySelector("[data-flash-filter]");
+    if (filter && wanted) {
+      var target = $$(".chip", filter).filter(function (c) { return c.getAttribute("data-ch") === wanted; })[0];
+      if (target) {
+        $$(".chip", filter).forEach(function (c) { c.setAttribute("data-active", "false"); });
+        target.setAttribute("data-active", "true");
+        filterCh = wanted;
+      }
+    }
     if (filter) {
       $$(".chip", filter).forEach(function (chip) {
         chip.addEventListener("click", function () {
