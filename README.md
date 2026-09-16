@@ -13,6 +13,23 @@ lærestoffet i Bios 1.
 | Quizspørsmål | 171, med forklaring på hvert svar |
 | Flashcards | 599 |
 
+## Ferdig nettside — hele koden på ett sted
+
+Repoet inneholder den ferdig bygde siden, så du slipper å bygge noe selv:
+
+| Hva | Hvor | Bruk |
+|---|---|---|
+| **Én enkelt fil** med hele nettsiden | `standalone/biologi-1.html` (~1,8 MB) | Last ned, dobbeltklikk. All HTML, CSS, JS og alt innholdet ligger inni fila. Ingen server, ingen internett. |
+| **Den vanlige siden**, én fil per side | `dist/` | Last ned mappa og åpne `dist/index.html`, eller legg hele mappa på en hvilken som helst vert. |
+| Kildekoden | `content/`, `src/`, `build.mjs` | Endre innhold og bygg på nytt. |
+
+`standalone/biologi-1.html` er for stor til at GitHub viser den i nettleseren — åpne fila i GitHub og
+velg **Download raw file** (eller **Raw** og lagre siden). I enkeltfil-versjonen er sidene adresser
+etter `#/`, for eksempel `#/kapittel-3`, `#/quiz` og `#/flashcards~k3`.
+
+Begge versjonene har nøyaktig samme innhold og funksjoner: søk, quiz, flashcards, filtre,
+framdriftsmarkering, lyst/mørkt tema.
+
 ## Sider
 
 | Side | Innhold |
@@ -34,8 +51,8 @@ innlogging, ingen sporing, ingen serverkode.
 Krever bare Node 18 eller nyere. Ingen avhengigheter.
 
 ```bash
-npm run build     # bygger dist/
-npm run verify    # bygger og kontrollerer lenker, id-er, quizfasit og søkeindeks
+npm run build     # bygger dist/ og standalone/biologi-1.html
+npm run verify    # bygger, kontrollerer lenker, id-er, quizfasit og søkeindeks, og bygger enkeltfila
 npm run dev       # bygger og starter http://localhost:8080
 ```
 
@@ -43,6 +60,7 @@ npm run dev       # bygger og starter http://localhost:8080
 
 ```
 build.mjs              byggeskript: content/ -> dist/
+build-single.mjs       pakker dist/ til én fil: standalone/biologi-1.html
 content/site.mjs       tittel, beskrivelse og de fire delene
 content/chapters/*.mjs ett kapittel per fil
 src/render.mjs         sidemal og blokkrendering
@@ -52,6 +70,8 @@ src/styles.css         stilark med lyst og mørkt tema
 src/app.js             søk, quiz, flashcards, filtre, framdrift og tema
 scripts/verify.mjs     kontroll av den bygde siden
 scripts/serve.mjs      lokal server
+dist/                  den ferdig bygde siden (sjekket inn)
+standalone/            hele siden som én HTML-fil (sjekket inn)
 ```
 
 ## Legge til eller endre innhold
